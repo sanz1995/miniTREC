@@ -21,6 +21,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -202,13 +203,17 @@ public class IndexFiles {
           
           doc.add(new TextField("title", capturarTextoEtiqueta(pDoc, "dc:title"), Field.Store.NO));
           doc.add(new StringField("identifier", capturarTextoEtiqueta(pDoc, "dc:identifier"), Field.Store.NO));
-          doc.add(new TextField("subject", capturarTextoEtiqueta(pDoc, "dc:subject"), Field.Store.NO));
-          doc.add(new StringField("type", capturarTextoEtiqueta(pDoc, "dc:type"), Field.Store.NO));
+          //doc.add(new TextField("subject", capturarTextoEtiqueta(pDoc, "dc:subject"), Field.Store.NO));
+          //doc.add(new StringField("type", capturarTextoEtiqueta(pDoc, "dc:type"), Field.Store.NO));
           doc.add(new TextField("description", capturarTextoEtiqueta(pDoc, "dc:description"), Field.Store.NO));
           doc.add(new TextField("creator", capturarTextoEtiqueta(pDoc, "dc:creator"), Field.Store.NO));
           doc.add(new TextField("publisher", capturarTextoEtiqueta(pDoc, "dc:publisher"), Field.Store.NO));
-          doc.add(new StringField("format", capturarTextoEtiqueta(pDoc, "dc:format"), Field.Store.NO));
+          //doc.add(new StringField("format", capturarTextoEtiqueta(pDoc, "dc:format"), Field.Store.NO));
           doc.add(new StringField("language", capturarTextoEtiqueta(pDoc, "dc:language"), Field.Store.NO));
+          
+          
+          doc.add(new IntField("date",Integer.parseInt(capturarTextoEtiqueta(pDoc, "dc:date")),Field.Store.NO));
+          
           
           if (writer.getConfig().getOpenMode() == OpenMode.CREATE) {
             // New index, so we just add the document (no old document can be there):
@@ -233,7 +238,7 @@ public class IndexFiles {
   }
   
   /**
-   * Método que obtiene el texto de todas las etiquetas "etiqueta"
+   * Mï¿½todo que obtiene el texto de todas las etiquetas "etiqueta"
    * del documento XML parseado "doc".
    * @param doc documento XML parseado
    * @param etiqueta cadena de caracteres que indica la etiqueta de
