@@ -207,13 +207,13 @@ public class IndexFiles {
           //doc.add(new StringField("type", capturarTextoEtiqueta(pDoc, "dc:type"), Field.Store.NO));
           doc.add(new TextField("description", capturarTextoEtiqueta(pDoc, "dc:description"), Field.Store.NO));
           doc.add(new TextField("creator", capturarTextoEtiqueta(pDoc, "dc:creator"), Field.Store.NO));
-          doc.add(new TextField("publisher", capturarTextoEtiqueta(pDoc, "dc:publisher"), Field.Store.NO));
+          //doc.add(new TextField("publisher", capturarTextoEtiqueta(pDoc, "dc:publisher"), Field.Store.NO));
           //doc.add(new StringField("format", capturarTextoEtiqueta(pDoc, "dc:format"), Field.Store.NO));
-          doc.add(new StringField("language", capturarTextoEtiqueta(pDoc, "dc:language"), Field.Store.NO));
-          
+          //doc.add(new StringField("language", capturarTextoEtiqueta(pDoc, "dc:language"), Field.Store.NO));
+          //System.out.println(capturarTextoEtiqueta(pDoc, "dc:language"));
           
           doc.add(new IntField("date",Integer.parseInt(capturarTextoEtiqueta(pDoc, "dc:date")),Field.Store.NO));
-          
+          //System.out.println(capturarTextoEtiqueta(pDoc, "dc:date"));
           
           if (writer.getConfig().getOpenMode() == OpenMode.CREATE) {
             // New index, so we just add the document (no old document can be there):
@@ -251,11 +251,27 @@ public class IndexFiles {
 	  String texto = "";
 	  
 	  if (node != null) {
-		  texto = node.getTextContent(); 
-		  for (int i = 1; i < nList.getLength(); i++) {
-			  node = nList.item(i);
-			  texto += " " + node.getTextContent();
+		  if(etiqueta.equals("dc:identifier")){
+			  node = nList.item(1);
+			  texto = node.getTextContent(); 
+			  if(texto.contains("TESIS")){
+				  texto="TESIS";
+			  }if(texto.contains("TFG")){
+				  texto="TFG";
+			  }if(texto.contains("TFM")){
+				  texto="TFM";
+			  }if(texto.contains("PFC")){
+				  texto="PFC";
+			  }
+		  }else{
+			  texto = node.getTextContent(); 
+			  
+			  for (int i = 1; i < nList.getLength(); i++) {
+				  node = nList.item(i);
+				  texto += " " + node.getTextContent();
+			  }
 		  }
+		  
 	  }
 	  
 	  return texto;

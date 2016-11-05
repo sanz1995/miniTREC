@@ -22,14 +22,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
@@ -38,6 +45,35 @@ import org.apache.lucene.util.Version;
 
 /** Simple command-line based search demo. */
 public class SearchFiles {
+	
+	
+	
+	private static List<String> stopWords= Arrays.asList("mucho", "tuviese", "míos", "seremos", "del", "serán", "vuestros", "hube", "tus"
+			, "habríamos", "les", "está", "estuvierais", "hubieras", "otras", "mí", "habido", "esté", "estarán"
+			, "fuera", "algunas", "tendrías", "estarás", "habréis", "al", "tengan", "quien", "son", "habrían", "tengas", 
+			"habrías", "estar", "estas", "sobre", "estaréis", "unos", "nosotros", "tuvieron", "mía", "estuviste", "estarían", 
+			"seáis", "habíamos", "todo", "tiene", "estarías", "tuyas", "tenemos", "hubiéramos", "mío", "sus", "se", "algo", 
+			"tendrán", "mis", "por", "serías", "sea", "estuviéramos", "ella", "vuestras", "necesito", "tendrás", "a", "su", "teniendo",
+			"esas", "fuiste", "tuvieseis", "o", "te", "ti", "habrán", "tendremos", "tuve", "y", "habrás", "hubimos", "fueran", "tu",
+			"fuese", "tendré", "estáis", "sois", "suyos", "seré", "fueras", "nosotras", "tuvieran", "tendrían", "tuvieras",
+			"estaban", "han", "habidas", "tuviésemos", "estabas", "has", "fueron", "tenían", "estuve", "hay", "tendrá", "tenías", "él", 
+			"el", "estuvo", "en", "habéis", "poco", "es", "estés", "habían", "estén", "tengáis", "habías", "serás", "hubisteis", "otros", 
+			"hubiera", "que", "vosotros", "seréis", "era", "suyas", "e", "tuviesen", "también", "hayan", "nuestra", "tuvieses", "hayas", 
+			"otra", "vuestra", "sin", "sí", "fueseis", "nuestro", "esta", "más", "eras", "contra", "otro", "hubiese", "vuestro",
+			"tenidos", "una", "estada", "cuando", "estuvisteis", "todos", "estuvieron", "muchos", "pero", "hemos", "uno", "habidos", 
+			"habrá", "ha", "tuvo", "tuvimos", "he", "estuviesen", "habré", "donde", "tú", "tienen", "ya", "fueses", "estemos", 
+			"tienes", "tenéis", "como", "esos", "estad", "fuisteis", "habremos", "yo", "nuestros", "seamos", "estaba", "siendo", 
+			"seríamos", "fuimos", "estos", "será", "fuesen", "estadas", "tendríais", "hayáis", "tuviéramos", "estuvimos", "somos", 
+			"estábamos", "teníais", "hubieses", "estuvieran", "hubo", "un", "estuvieras", "estaremos", "qué", "habíais", "tuya", 
+			"hubiésemos", "fuerais", "hubieseis", "nos", "los", "estéis", "seríais", "tuvierais", "tuyo", "estuviésemos", 
+			"quienes", "había", "ante", "no", "hubieron", "sido", "nuestras", "estado", "tenida", "tenido", "nada", "estuviera", 
+			"esa", "sería", "la", "fue", "ese", "le", "serían", "tened", "habida", "estuvieses", "estuvieseis", "teníamos", 
+			"eso", "con", "lo", "vosotras", "tuviera", "fui", "tuviste", "estará", "estaría", "erais", "porque", "hubiste", "estaré",
+			"estuviese", "estamos", "ellas", "me", "eran", "de", "mi", "soy", "las", "este", "cual", "estaríamos", "tenga", "esto",
+			"hubieran", "hayamos", "están", "mías", "estás", "ni", "tendríamos", "tendría", "haya", "tengo", "estabais", "fuésemos",
+			"habríais", "estados", "tenidas", "muy", "éramos", "seas", "eres", "algunos", "tuvisteis", "tanto", "habría", "ellos", 
+			"para", "suya", "os", "fuéramos", "tendréis", "hubierais", "hubiesen", "estoy", "tenía", "habiendo", "estaríais",
+			"tengamos", "tuyos", "suyo", "estando", "sean");
 
   private SearchFiles() {}
 
@@ -88,15 +124,20 @@ public class SearchFiles {
     
     IndexReader reader = DirectoryReader.open(FSDirectory.open(new File(index)));
     IndexSearcher searcher = new IndexSearcher(reader);
-    Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44);
-
+    
+    CharArraySet cas=new CharArraySet(Version.LUCENE_44,stopWords,true);
+    
+    
+    SpanishAnalyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44,cas);
+    System.out.println(analyzer.getStopwordSet());
     BufferedReader in = null;
     if (queries != null) {
       in = new BufferedReader(new InputStreamReader(new FileInputStream(queries), "UTF-8"));
     } else {
       in = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
     }
-    QueryParser parser = new QueryParser(Version.LUCENE_44, field, analyzer);
+    System.out.println(field);
+    QueryParser parser = new MyQueryParser(Version.LUCENE_44, field, analyzer);
     while (true) {
       if (queries == null && queryString == null) {                        // prompt the user
         System.out.println("Enter query: ");
@@ -107,15 +148,14 @@ public class SearchFiles {
       if (line == null || line.length() == -1) {
         break;
       }
-
       line = line.trim();
       if (line.length() == 0) {
         break;
       }
       
       Query query = parser.parse(line);
-      System.out.println("Searching for: " + query.toString(field));
-            
+      System.out.println("Searching for: " + query.toString());
+      
       if (repeat > 0) {                           // repeat & time as benchmark
         Date start = new Date();
         for (int i = 0; i < repeat; i++) {
@@ -166,6 +206,7 @@ public class SearchFiles {
           break;
         }
 
+        
         hits = searcher.search(query, numTotalHits).scoreDocs;
       }
       
