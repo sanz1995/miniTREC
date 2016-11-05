@@ -73,7 +73,7 @@ public class SearchFiles {
 			"hubieran", "hayamos", "están", "mías", "estás", "ni", "tendríamos", "tendría", "haya", "tengo", "estabais", "fuésemos",
 			"habríais", "estados", "tenidas", "muy", "éramos", "seas", "eres", "algunos", "tuvisteis", "tanto", "habría", "ellos", 
 			"para", "suya", "os", "fuéramos", "tendréis", "hubierais", "hubiesen", "estoy", "tenía", "habiendo", "estaríais",
-			"tengamos", "tuyos", "suyo", "estando", "sean");
+			"tengamos", "tuyos", "suyo", "estando", "sean","interesa","encontrar");
 
   private SearchFiles() {}
 
@@ -129,15 +129,14 @@ public class SearchFiles {
     
     
     SpanishAnalyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44,cas);
-    System.out.println(analyzer.getStopwordSet());
     BufferedReader in = null;
     if (queries != null) {
       in = new BufferedReader(new InputStreamReader(new FileInputStream(queries), "UTF-8"));
     } else {
       in = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
     }
-    System.out.println(field);
-    QueryParser parser = new MyQueryParser(Version.LUCENE_44, field, analyzer);
+    MyQueryParser parser = new MyQueryParser(analyzer);
+    
     while (true) {
       if (queries == null && queryString == null) {                        // prompt the user
         System.out.println("Enter query: ");

@@ -1,43 +1,68 @@
 package org.apache.lucene.demo;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.util.Version;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.MultiPhraseQuery;
+import org.apache.lucene.search.MultiTermQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.util.Version;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.index.Term;
-public class MyQueryParser extends QueryParser{
+public class MyQueryParser{
 	
-	int trabajoPos=-1;
-	int pos=0;
-	
-	public MyQueryParser(Version v, String f, Analyzer a){
-		super(v,f,a);
+	private int trabajoPos=-1;
+	private int pos=0;
+	private Analyzer analyzer;
+	private static List<String> worthless=Arrays.asList("text","informacion");
+	public MyQueryParser(Analyzer a){
+		analyzer=a;
 	}
 	
 	public Query parse(String necesidad) throws ParseException{
-		BooleanQuery base=new BooleanQuery();
-		
-		
-		Query q =super.parse(necesidad);
-		System.out.println(q.getClass());
-		String termSec=q.toString(super.getField());
 		System.out.println("------------");
-		System.out.println(termSec);
-		String[] stems=termSec.split(" ");
+		BooleanQuery base=new BooleanQuery();
+		try {
+			TokenStream ts=analyzer.tokenStream(null, new StringReader(necesidad));
+			ts.reset();
+			List<String> l = new ArrayList<String>();
+			while(ts.incrementToken()){
+				l.add(ts.getAttribute(CharTermAttribute.class).toString());
+				//System.out.println(ts.getAttribute(CharTermAttribute.class));
+			}
+			
+			
+			checkIdentifier(l,base);
+			checkDate(l,base);
+			
+			
+			Query q = getQuery(l,"title");
+			q.setBoost(2f);
+			base.add(q,BooleanClause.Occur.SHOULD);
+			
+			
+			base.add(getQuery(l,"description"),BooleanClause.Occur.SHOULD);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		checkIdentifier(stems,base);
-		checkDate(stems,base);
 		return base;
 		
 	}
-	public void checkIdentifier(String[] stems,BooleanQuery base){
+	public void checkIdentifier(List<String> stems,BooleanQuery base){
 		for (String stem: stems){
 			pos++;
 			if(stem.equals("tesis")){
@@ -58,10 +83,14 @@ public class MyQueryParser extends QueryParser{
 				trabajoPos=pos;
 			}else if(stem.equals("proyect")){
 				trabajoPos=pos;
+			}else if(stem.equals("text")){
+				trabajoPos=pos;
+			}else if(stem.equals("informacion")){
+				trabajoPos=pos;
 			}
 		}
 	}
-	public void checkDate(String[] stems,BooleanQuery base){
+	public void checkDate(List<String> stems,BooleanQuery base){
 		String text="";
 		//0 nada encontrado, 1 previos, 2 posteriores, 3 entre, 4 ultimos, 5 año, 6 desde
 		int mode =0;
@@ -152,5 +181,14 @@ public class MyQueryParser extends QueryParser{
 			}
 		}
 		
+	}
+	public Query getQuery(List<String> stems, String field){
+		BooleanQuery bq=new BooleanQuery();
+		for (String stem: stems){
+			if(!worthless.contains(stem)){
+				bq.add(new TermQuery(new Term(field,stem)),BooleanClause.Occur.SHOULD);
+			}
+		}
+		return bq;
 	}
 }
