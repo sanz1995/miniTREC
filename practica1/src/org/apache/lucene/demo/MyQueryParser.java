@@ -23,9 +23,15 @@ public class MyQueryParser extends QueryParser{
 	
 	public Query parse(String necesidad) throws ParseException{
 		BooleanQuery base=new BooleanQuery();
+		
+		
 		Query q =super.parse(necesidad);
+		System.out.println(q.getClass());
 		String termSec=q.toString(super.getField());
+		System.out.println("------------");
+		System.out.println(termSec);
 		String[] stems=termSec.split(" ");
+		
 		checkIdentifier(stems,base);
 		checkDate(stems,base);
 		return base;
@@ -50,6 +56,8 @@ public class MyQueryParser extends QueryParser{
 				trabajoPos=pos;
 			}else if(stem.equals("publicad")){
 				trabajoPos=pos;
+			}else if(stem.equals("proyect")){
+				trabajoPos=pos;
 			}
 		}
 	}
@@ -65,7 +73,7 @@ public class MyQueryParser extends QueryParser{
 		
 		for (String stem: stems){
 			pos++;
-			if(trabajoPos!=-1 && (pos-trabajoPos<4 | mode!=0)){
+			if(trabajoPos!=-1 && (pos-trabajoPos<5 | mode!=0)){
 				if(stem.equals("previ")){
 					mode=1;
 				}else if(stem.equals("anterior")){
