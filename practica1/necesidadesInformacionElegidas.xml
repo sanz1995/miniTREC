@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<informationNeeds>
+  <informationNeed>
+    <identifier>01-1</identifier>
+    <text>Me interesa encontrar textos sobre información geológica de España.</text>
+  </informationNeed>
+  <informationNeed>
+    <identifier>04-3</identifier>
+    <text>Trabajos sobre enfermedades infecciosas, que hayan afectado preferentemente a la población entre 1980 y 1990.</text>
+  </informationNeed>
+  <informationNeed>
+    <identifier>05-1</identifier>
+    <text> Estoy interesado en algoritmos. Preferiria modelos basados en funciones geometricas sin implementacion.</text>
+  </informationNeed>
+  <informationNeed>
+    <identifier>09-4</identifier>
+    <text>Me gustaría conocer todos los trabajos académicos y tesis doctorales relacionados con robótica publicados a partir del año 2005 (incluido), en los que haya participado algún miembro de la familia Martinez.</text>
+  </informationNeed>
+  <informationNeed>
+    <identifier>11-5</identifier>
+    <text>Un usuario necesita obtener técnicas de inteligencia artificial para implementarlas en un videojuego. Ofrecer proyectos relacionados con la inteligencia artificial en los ultimos 5 años.</text>
+  </informationNeed>
+</informationNeeds>

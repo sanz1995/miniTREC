@@ -17,264 +17,167 @@ package org.apache.lucene.demo;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-import org.apache.lucene.analysis.Analyzer;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
+import org.w3c.dom.NodeList;
 
 /** Simple command-line based search demo. */
 public class SearchFiles {
 	
-	
-	
-	private static List<String> stopWords= Arrays.asList("mucho", "tuviese", "m√≠os", "seremos", "del", "ser√°n", "vuestros", "hube", "tus"
-			, "habr√≠amos", "les", "est√°", "estuvierais", "hubieras", "otras", "m√≠", "habido", "est√©", "estar√°n"
-			, "fuera", "algunas", "tendr√≠as", "estar√°s", "habr√©is", "al", "tengan", "quien", "son", "habr√≠an", "tengas", 
-			"habr√≠as", "estar", "estas", "sobre", "estar√©is", "unos", "nosotros", "tuvieron", "m√≠a", "estuviste", "estar√≠an", 
-			"se√°is", "hab√≠amos", "todo", "tiene", "estar√≠as", "tuyas", "tenemos", "hubi√©ramos", "m√≠o", "sus", "se", "algo", 
-			"tendr√°n", "mis", "por", "ser√≠as", "sea", "estuvi√©ramos", "ella", "vuestras", "necesito", "tendr√°s", "a", "su", "teniendo",
-			"esas", "fuiste", "tuvieseis", "o", "te", "ti", "habr√°n", "tendremos", "tuve", "y", "habr√°s", "hubimos", "fueran", "tu",
-			"fuese", "tendr√©", "est√°is", "sois", "suyos", "ser√©", "fueras", "nosotras", "tuvieran", "tendr√≠an", "tuvieras",
-			"estaban", "han", "habidas", "tuvi√©semos", "estabas", "has", "fueron", "ten√≠an", "estuve", "hay", "tendr√°", "ten√≠as", "√©l", 
-			"el", "estuvo", "en", "hab√©is", "poco", "es", "est√©s", "hab√≠an", "est√©n", "teng√°is", "hab√≠as", "ser√°s", "hubisteis", "otros", 
-			"hubiera", "que", "vosotros", "ser√©is", "era", "suyas", "e", "tuviesen", "tambi√©n", "hayan", "nuestra", "tuvieses", "hayas", 
-			"otra", "vuestra", "sin", "s√≠", "fueseis", "nuestro", "esta", "m√°s", "eras", "contra", "otro", "hubiese", "vuestro",
+	private static List<String> stopWords= Arrays.asList("mucho", "tuviese", "mÌos", "seremos", "del", "ser·n", "vuestros", "hube", "tus"
+			, "habrÌamos", "les", "est·", "estuvierais", "hubieras", "otras", "mÌ", "habido", "estÈ", "estar·n"
+			, "fuera", "algunas", "tendrÌas", "estar·s", "habrÈis", "al", "tengan", "quien", "son", "habrÌan", "tengas", 
+			"habrÌas", "estar", "estas", "sobre", "estarÈis", "unos", "nosotros", "tuvieron", "mÌa", "estuviste", "estarÌan", 
+			"se·is", "habÌamos", "todo", "tiene", "estarÌas", "tuyas", "tenemos", "hubiÈramos", "mÌo", "sus", "se", "algo", 
+			"tendr·n", "mis", "por", "serÌas", "sea", "estuviÈramos", "ella", "vuestras", "necesito", "tendr·s", "a", "su", "teniendo",
+			"esas", "fuiste", "tuvieseis", "o", "te", "ti", "habr·n", "tendremos", "tuve", "y", "habr·s", "hubimos", "fueran", "tu",
+			"fuese", "tendrÈ", "est·is", "sois", "suyos", "serÈ", "fueras", "nosotras", "tuvieran", "tendrÌan", "tuvieras",
+			"estaban", "han", "habidas", "tuviÈsemos", "estabas", "has", "fueron", "tenÌan", "estuve", "hay", "tendr·", "tenÌas", "Èl", 
+			"el", "estuvo", "en", "habÈis", "poco", "es", "estÈs", "habÌan", "estÈn", "teng·is", "habÌas", "ser·s", "hubisteis", "otros", 
+			"hubiera", "que", "vosotros", "serÈis", "era", "suyas", "e", "tuviesen", "tambiÈn", "hayan", "nuestra", "tuvieses", "hayas", 
+			"otra", "vuestra", "sin", "sÌ", "fueseis", "nuestro", "esta", "m·s", "eras", "contra", "otro", "hubiese", "vuestro",
 			"tenidos", "una", "estada", "cuando", "estuvisteis", "todos", "estuvieron", "muchos", "pero", "hemos", "uno", "habidos", 
-			"habr√°", "ha", "tuvo", "tuvimos", "he", "estuviesen", "habr√©", "donde", "t√∫", "tienen", "ya", "fueses", "estemos", 
-			"tienes", "ten√©is", "como", "esos", "estad", "fuisteis", "habremos", "yo", "nuestros", "seamos", "estaba", "siendo", 
-			"ser√≠amos", "fuimos", "estos", "ser√°", "fuesen", "estadas", "tendr√≠ais", "hay√°is", "tuvi√©ramos", "estuvimos", "somos", 
-			"est√°bamos", "ten√≠ais", "hubieses", "estuvieran", "hubo", "un", "estuvieras", "estaremos", "qu√©", "hab√≠ais", "tuya", 
-			"hubi√©semos", "fuerais", "hubieseis", "nos", "los", "est√©is", "ser√≠ais", "tuvierais", "tuyo", "estuvi√©semos", 
-			"quienes", "hab√≠a", "ante", "no", "hubieron", "sido", "nuestras", "estado", "tenida", "tenido", "nada", "estuviera", 
-			"esa", "ser√≠a", "la", "fue", "ese", "le", "ser√≠an", "tened", "habida", "estuvieses", "estuvieseis", "ten√≠amos", 
-			"eso", "con", "lo", "vosotras", "tuviera", "fui", "tuviste", "estar√°", "estar√≠a", "erais", "porque", "hubiste", "estar√©",
-			"estuviese", "estamos", "ellas", "me", "eran", "de", "mi", "soy", "las", "este", "cual", "estar√≠amos", "tenga", "esto",
-			"hubieran", "hayamos", "est√°n", "m√≠as", "est√°s", "ni", "tendr√≠amos", "tendr√≠a", "haya", "tengo", "estabais", "fu√©semos",
-			"habr√≠ais", "estados", "tenidas", "muy", "√©ramos", "seas", "eres", "algunos", "tuvisteis", "tanto", "habr√≠a", "ellos", 
-			"para", "suya", "os", "fu√©ramos", "tendr√©is", "hubierais", "hubiesen", "estoy", "ten√≠a", "habiendo", "estar√≠ais",
+			"habr·", "ha", "tuvo", "tuvimos", "he", "estuviesen", "habrÈ", "donde", "t˙", "tienen", "ya", "fueses", "estemos", 
+			"tienes", "tenÈis", "como", "esos", "estad", "fuisteis", "habremos", "yo", "nuestros", "seamos", "estaba", "siendo", 
+			"serÌamos", "fuimos", "estos", "ser·", "fuesen", "estadas", "tendrÌais", "hay·is", "tuviÈramos", "estuvimos", "somos", 
+			"est·bamos", "tenÌais", "hubieses", "estuvieran", "hubo", "un", "estuvieras", "estaremos", "quÈ", "habÌais", "tuya", 
+			"hubiÈsemos", "fuerais", "hubieseis", "nos", "los", "estÈis", "serÌais", "tuvierais", "tuyo", "estuviÈsemos", 
+			"quienes", "habÌa", "ante", "no", "hubieron", "sido", "nuestras", "estado", "tenida", "tenido", "nada", "estuviera", 
+			"esa", "serÌa", "la", "fue", "ese", "le", "serÌan", "tened", "habida", "estuvieses", "estuvieseis", "tenÌamos", 
+			"eso", "con", "lo", "vosotras", "tuviera", "fui", "tuviste", "estar·", "estarÌa", "erais", "porque", "hubiste", "estarÈ",
+			"estuviese", "estamos", "ellas", "me", "eran", "de", "mi", "soy", "las", "este", "cual", "estarÌamos", "tenga", "esto",
+			"hubieran", "hayamos", "est·n", "mÌas", "est·s", "ni", "tendrÌamos", "tendrÌa", "haya", "tengo", "estabais", "fuÈsemos",
+			"habrÌais", "estados", "tenidas", "muy", "Èramos", "seas", "eres", "algunos", "tuvisteis", "tanto", "habrÌa", "ellos", 
+			"para", "suya", "os", "fuÈramos", "tendrÈis", "hubierais", "hubiesen", "estoy", "tenÌa", "habiendo", "estarÌais",
 			"tengamos", "tuyos", "suyo", "estando", "sean","interesa","encontrar");
+	
 
   private SearchFiles() {}
 
   /** Simple command-line based search demo. */
   public static void main(String[] args) throws Exception {
     String usage =
-      "Usage:\tjava org.apache.lucene.demo.SearchFiles [-index dir] [-field f] [-repeat n] [-queries file] [-query string] [-raw] [-paging hitsPerPage]\n\nSee http://lucene.apache.org/core/4_1_0/demo/ for details.";
-    if (args.length > 0 && ("-h".equals(args[0]) || "-help".equals(args[0]))) {
+      "Usage:\tjava SearchFiles -index <indexPath> -infoNeeds <infoNeedsFile> -output <resultsFile>";
+    if (args.length > 0 && ("-h".equals(args[0]) || "-help".equals(args[0])) || args.length != 6) {
       System.out.println(usage);
       System.exit(0);
     }
 
-    String index = "index";
-    String field = "contents";
-    String queries = null;
-    int repeat = 0;
-    boolean raw = false;
-    String queryString = null;
-    int hitsPerPage = 10;
+    String index = "";
+    String entrada = "";
+    String salida = "";
     
     for(int i = 0;i < args.length;i++) {
       if ("-index".equals(args[i])) {
         index = args[i+1];
         i++;
-      } else if ("-field".equals(args[i])) {
-        field = args[i+1];
+      } else if ("-infoNeeds".equals(args[i])) {
+        entrada = args[i+1];
         i++;
-      } else if ("-queries".equals(args[i])) {
-        queries = args[i+1];
-        i++;
-      } else if ("-query".equals(args[i])) {
-        queryString = args[i+1];
-        i++;
-      } else if ("-repeat".equals(args[i])) {
-        repeat = Integer.parseInt(args[i+1]);
-        i++;
-      } else if ("-raw".equals(args[i])) {
-        raw = true;
-      } else if ("-paging".equals(args[i])) {
-        hitsPerPage = Integer.parseInt(args[i+1]);
-        if (hitsPerPage <= 0) {
-          System.err.println("There must be at least 1 hit per page.");
-          System.exit(1);
-        }
-        i++;
+      } else if ("-output".equals(args[i])) {
+        salida = args[i+1];
       }
     }
+    
+    if (index.equals("") || entrada.equals("") || salida.equals("")) {
+    	System.out.println(usage);
+    	System.exit(0);
+    }
+    
+    final File fEntrada = new File(entrada);
+    if (!fEntrada.exists() || !fEntrada.canRead()) {
+      System.out.println("Document directory '" +fEntrada.getAbsolutePath()+ "' does not exist or is not readable, please check the path");
+      System.exit(1);
+    }
+    
+    FileWriter fSalida = new FileWriter(salida);
+    PrintWriter pw = new PrintWriter(fSalida);
+  
+    String[][] consultas = extraerConsultas(fEntrada);
     
     IndexReader reader = DirectoryReader.open(FSDirectory.open(new File(index)));
     IndexSearcher searcher = new IndexSearcher(reader);
-    
-    CharArraySet cas=new CharArraySet(Version.LUCENE_44,stopWords,true);
-    
-    
-    SpanishAnalyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44,cas);
-    BufferedReader in = null;
-    if (queries != null) {
-      in = new BufferedReader(new InputStreamReader(new FileInputStream(queries), "UTF-8"));
-    } else {
-      in = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
-    }
+    CharArraySet cas = new CharArraySet(Version.LUCENE_44, stopWords, true);
+    SpanishAnalyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44, cas);
     MyQueryParser parser = new MyQueryParser(analyzer);
     
-    while (true) {
-      if (queries == null && queryString == null) {                        // prompt the user
-        System.out.println("Enter query: ");
-      }
-
-      String line = queryString != null ? queryString : in.readLine();
-
-      if (line == null || line.length() == -1) {
-        break;
-      }
-      line = line.trim();
-      if (line.length() == 0) {
-        break;
-      }
-      
-      Query query = parser.parse(line);
-      System.out.println("Searching for: " + query.toString());
-      
-      if (repeat > 0) {                           // repeat & time as benchmark
-        Date start = new Date();
-        for (int i = 0; i < repeat; i++) {
-          searcher.search(query, 100);
-        }
-        Date end = new Date();
-        System.out.println("Time: "+(end.getTime()-start.getTime())+"ms");
-      }
-
-      doPagingSearch(in, searcher, query, hitsPerPage, raw, queries == null && queryString == null);
-
-      if (queryString != null) {
-        break;
-      }
+    for (int i = 0; i < consultas.length; i++) {
+    	Query query = parser.parse(consultas[i][1]);
+    	hacerConsultas(searcher, consultas[i][0], query, pw);
     }
+    
+    pw.close();
     reader.close();
+    fSalida.close();
+  }
+  
+  /**
+   * Realiza la busqueda de ficheros que coinciden con la query pasada y los escribe en un
+   * fichero.
+   * @param searcher indice sobre el que se buscan los documentos
+   * @param idConsulta identificador de la consulta
+   * @param consulta query con la que se realiza la b˙squeda
+   * @param pw objeto Printwritter sobre el que se escriben los fichero obtenidos.
+   */
+  public static void hacerConsultas (IndexSearcher searcher, String idConsulta, Query consulta, PrintWriter pw) throws IOException{
+	  TopDocs results = searcher.search(consulta, 1);
+	  results = searcher.search(consulta, results.totalHits);
+	  ScoreDoc[] hits = results.scoreDocs;
+	  
+	  for (int i = 0; i < hits.length; i++) {
+		  Document doc = searcher.doc(hits[i].doc);
+	      String path = doc.get("path");
+	      String fichero = path.substring(path.lastIndexOf('\\') + 1, path.length());
+	      pw.println(idConsulta + "\t" + fichero);
+	  }
   }
 
+  
   /**
-   * This demonstrates a typical paging search scenario, where the search engine presents 
-   * pages of size n to the user. The user can then go to the next page if interested in
-   * the next hits.
-   * 
-   * When the query is executed for the first time, then only enough results are collected
-   * to fill 5 result pages. If the user wants to page beyond this limit, then the query
-   * is executed another time and all hits are collected.
-   * 
+   * Extrae las 5 consultas que se encuentran en el fichero XML proporcionado
+   * como par·metro.
+   * @param docDir fichero XML del que extraer las consultas
+   * @return array de cadena de caracteres con las consultas extraidas.
    */
-  public static void doPagingSearch(BufferedReader in, IndexSearcher searcher, Query query, 
-                                     int hitsPerPage, boolean raw, boolean interactive) throws IOException {
- 
-    // Collect enough docs to show 5 pages
-    TopDocs results = searcher.search(query, 5 * hitsPerPage);
-    ScoreDoc[] hits = results.scoreDocs;
-    
-    int numTotalHits = results.totalHits;
-    System.out.println(numTotalHits + " total matching documents");
-
-    int start = 0;
-    int end = Math.min(numTotalHits, hitsPerPage);
-        
-    while (true) {
-      if (end > hits.length) {
-        System.out.println("Only results 1 - " + hits.length +" of " + numTotalHits + " total matching documents collected.");
-        System.out.println("Collect more (y/n) ?");
-        String line = in.readLine();
-        if (line.length() == 0 || line.charAt(0) == 'n') {
-          break;
-        }
-
-        
-        hits = searcher.search(query, numTotalHits).scoreDocs;
-      }
-      
-      end = Math.min(hits.length, start + hitsPerPage);
-      
-      for (int i = start; i < end; i++) {
-        if (raw) {                              // output raw format
-          System.out.println("doc="+hits[i].doc+" score="+hits[i].score);
-          continue;
-        }
-
-        Document doc = searcher.doc(hits[i].doc);
-        String path = doc.get("path");
-        Date d = new Date(Long.parseLong(doc.get("modified")));
-        
-        if (path != null) {
-          System.out.println((i+1) + ". " + path);
-          doc.get("");
-        } else {
-          System.out.println((i+1) + ". " + "No path for this document");
-        }
-        System.out.println("	modified: " + d);
-        //explain the scoring function
-        //System.out.println(searcher.explain(query, hits[i].doc));
-                  
-      }
-
-      if (!interactive || end == 0) {
-        break;
-      }
-
-      if (numTotalHits >= end) {
-        boolean quit = false;
-        while (true) {
-          System.out.print("Press ");
-          if (start - hitsPerPage >= 0) {
-            System.out.print("(p)revious page, ");  
-          }
-          if (start + hitsPerPage < numTotalHits) {
-            System.out.print("(n)ext page, ");
-          }
-          System.out.println("(q)uit or enter number to jump to a page.");
+  private static String[][] extraerConsultas (File docDir) {
+	  String [][] array = new String [5][2];
+	  try {
+          // parse the document
+          DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();	
+          DocumentBuilder db = dbf.newDocumentBuilder();
+          org.w3c.dom.Document pDoc = db.parse(docDir);
+          pDoc.getDocumentElement().normalize();
           
-          String line = in.readLine();
-          if (line.length() == 0 || line.charAt(0)=='q') {
-            quit = true;
-            break;
+          NodeList nList = pDoc.getElementsByTagName("informationNeed");
+          for (int i = 0; i < nList.getLength(); i++) {
+        	  String texto = nList.item(i).getTextContent().replaceAll("\\s", " ").trim();
+              String id = texto.substring(0, texto.indexOf("  ")).trim();
+              String consulta = texto.substring(texto.indexOf("  "), texto.length()).trim();
+              array[i][0] = id;
+              array[i][1] = consulta;
           }
-          if (line.charAt(0) == 'p') {
-            start = Math.max(0, start - hitsPerPage);
-            break;
-          } else if (line.charAt(0) == 'n') {
-            if (start + hitsPerPage < numTotalHits) {
-              start+=hitsPerPage;
-            }
-            break;
-          } else {
-            int page = Integer.parseInt(line);
-            if ((page - 1) * hitsPerPage < numTotalHits) {
-              start = (page - 1) * hitsPerPage;
-              break;
-            } else {
-              System.out.println("No such page");
-            }
-          }
-        }
-        if (quit) break;
-        end = Math.min(numTotalHits, start + hitsPerPage);
-      }
-    }
+	  } catch (Exception e) {
+		  System.out.println(e.getStackTrace());
+	  }
+	  return array;
   }
 }
