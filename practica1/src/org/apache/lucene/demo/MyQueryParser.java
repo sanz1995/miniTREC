@@ -77,7 +77,7 @@ public class MyQueryParser{
 	 * @param stems
 	 * @param base
 	 */
-	public void checkIdentifier(List<String> stems,BooleanQuery base){
+	private void checkIdentifier(List<String> stems,BooleanQuery base){
 		int pos=0;
 		boolean tesis=false;
 		boolean tfg=false;
@@ -169,7 +169,7 @@ public class MyQueryParser{
 	 * @param stems
 	 * @param base
 	 */
-	public void checkDate(List<String> stems,BooleanQuery base){
+	private void checkDate(List<String> stems,BooleanQuery base){
 		//0 nada encontrado, 1 previos, 2 posteriores, 3 entre, 4 ultimos, 5 año, 6 desde
 		int mode =0;
 		int pos =0;
@@ -272,7 +272,7 @@ public class MyQueryParser{
 	 * @param field
 	 * @return
 	 */
-	public Query getQuery(List<String> stems, String field){
+	private Query getQuery(List<String> stems, String field){
 		BooleanQuery bq=new BooleanQuery();
 		List<String> viewed= new ArrayList<String>();
 		for (String stem: stems){
