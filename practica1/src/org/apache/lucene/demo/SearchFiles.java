@@ -43,31 +43,31 @@ import org.w3c.dom.NodeList;
 /** Simple command-line based search demo. */
 public class SearchFiles {
 	
-	private static List<String> stopWords= Arrays.asList("mucho", "tuviese", "míos", "seremos", "del", "serán", "vuestros", "hube", "tus"
-			, "habríamos", "les", "está", "estuvierais", "hubieras", "otras", "mí", "habido", "esté", "estarán"
-			, "fuera", "algunas", "tendrías", "estarás", "habréis", "al", "tengan", "quien", "son", "habrían", "tengas", 
-			"habrías", "estar", "estas", "sobre", "estaréis", "unos", "nosotros", "tuvieron", "mía", "estuviste", "estarían", 
-			"seáis", "habíamos", "todo", "tiene", "estarías", "tuyas", "tenemos", "hubiéramos", "mío", "sus", "se", "algo", 
-			"tendrán", "mis", "por", "serías", "sea", "estuviéramos", "ella", "vuestras", "necesito", "tendrás", "a", "su", "teniendo",
-			"esas", "fuiste", "tuvieseis", "o", "te", "ti", "habrán", "tendremos", "tuve", "y", "habrás", "hubimos", "fueran", "tu",
-			"fuese", "tendré", "estáis", "sois", "suyos", "seré", "fueras", "nosotras", "tuvieran", "tendrían", "tuvieras",
-			"estaban", "han", "habidas", "tuviésemos", "estabas", "has", "fueron", "tenían", "estuve", "hay", "tendrá", "tenías", "él", 
-			"el", "estuvo", "en", "habéis", "poco", "es", "estés", "habían", "estén", "tengáis", "habías", "serás", "hubisteis", "otros", 
-			"hubiera", "que", "vosotros", "seréis", "era", "suyas", "e", "tuviesen", "también", "hayan", "nuestra", "tuvieses", "hayas", 
-			"otra", "vuestra", "sin", "sí", "fueseis", "nuestro", "esta", "más", "eras", "contra", "otro", "hubiese", "vuestro",
+	private static List<String> stopWords= Arrays.asList("mucho", "tuviese", "mï¿½os", "seremos", "del", "serï¿½n", "vuestros", "hube", "tus"
+			, "habrï¿½amos", "les", "estï¿½", "estuvierais", "hubieras", "otras", "mï¿½", "habido", "estï¿½", "estarï¿½n"
+			, "fuera", "algunas", "tendrï¿½as", "estarï¿½s", "habrï¿½is", "al", "tengan", "quien", "son", "habrï¿½an", "tengas", 
+			"habrï¿½as", "estar", "estas", "sobre", "estarï¿½is", "unos", "nosotros", "tuvieron", "mï¿½a", "estuviste", "estarï¿½an", 
+			"seï¿½is", "habï¿½amos", "todo", "tiene", "estarï¿½as", "tuyas", "tenemos", "hubiï¿½ramos", "mï¿½o", "sus", "se", "algo", 
+			"tendrï¿½n", "mis", "por", "serï¿½as", "sea", "estuviï¿½ramos", "ella", "vuestras", "necesito", "tendrï¿½s", "a", "su", "teniendo",
+			"esas", "fuiste", "tuvieseis", "o", "te", "ti", "habrï¿½n", "tendremos", "tuve", "y", "habrï¿½s", "hubimos", "fueran", "tu",
+			"fuese", "tendrï¿½", "estï¿½is", "sois", "suyos", "serï¿½", "fueras", "nosotras", "tuvieran", "tendrï¿½an", "tuvieras",
+			"estaban", "han", "habidas", "tuviï¿½semos", "estabas", "has", "fueron", "tenï¿½an", "estuve", "hay", "tendrï¿½", "tenï¿½as", "ï¿½l", 
+			"el", "estuvo", "en", "habï¿½is", "poco", "es", "estï¿½s", "habï¿½an", "estï¿½n", "tengï¿½is", "habï¿½as", "serï¿½s", "hubisteis", "otros", 
+			"hubiera", "que", "vosotros", "serï¿½is", "era", "suyas", "e", "tuviesen", "tambiï¿½n", "hayan", "nuestra", "tuvieses", "hayas", 
+			"otra", "vuestra", "sin", "sï¿½", "fueseis", "nuestro", "esta", "mï¿½s", "eras", "contra", "otro", "hubiese", "vuestro",
 			"tenidos", "una", "estada", "cuando", "estuvisteis", "todos", "estuvieron", "muchos", "pero", "hemos", "uno", "habidos", 
-			"habrá", "ha", "tuvo", "tuvimos", "he", "estuviesen", "habré", "donde", "tú", "tienen", "ya", "fueses", "estemos", 
-			"tienes", "tenéis", "como", "esos", "estad", "fuisteis", "habremos", "yo", "nuestros", "seamos", "estaba", "siendo", 
-			"seríamos", "fuimos", "estos", "será", "fuesen", "estadas", "tendríais", "hayáis", "tuviéramos", "estuvimos", "somos", 
-			"estábamos", "teníais", "hubieses", "estuvieran", "hubo", "un", "estuvieras", "estaremos", "qué", "habíais", "tuya", 
-			"hubiésemos", "fuerais", "hubieseis", "nos", "los", "estéis", "seríais", "tuvierais", "tuyo", "estuviésemos", 
-			"quienes", "había", "ante", "no", "hubieron", "sido", "nuestras", "estado", "tenida", "tenido", "nada", "estuviera", 
-			"esa", "sería", "la", "fue", "ese", "le", "serían", "tened", "habida", "estuvieses", "estuvieseis", "teníamos", 
-			"eso", "con", "lo", "vosotras", "tuviera", "fui", "tuviste", "estará", "estaría", "erais", "porque", "hubiste", "estaré",
-			"estuviese", "estamos", "ellas", "me", "eran", "de", "mi", "soy", "las", "este", "cual", "estaríamos", "tenga", "esto",
-			"hubieran", "hayamos", "están", "mías", "estás", "ni", "tendríamos", "tendría", "haya", "tengo", "estabais", "fuésemos",
-			"habríais", "estados", "tenidas", "muy", "éramos", "seas", "eres", "algunos", "tuvisteis", "tanto", "habría", "ellos", 
-			"para", "suya", "os", "fuéramos", "tendréis", "hubierais", "hubiesen", "estoy", "tenía", "habiendo", "estaríais",
+			"habrï¿½", "ha", "tuvo", "tuvimos", "he", "estuviesen", "habrï¿½", "donde", "tï¿½", "tienen", "ya", "fueses", "estemos", 
+			"tienes", "tenï¿½is", "como", "esos", "estad", "fuisteis", "habremos", "yo", "nuestros", "seamos", "estaba", "siendo", 
+			"serï¿½amos", "fuimos", "estos", "serï¿½", "fuesen", "estadas", "tendrï¿½ais", "hayï¿½is", "tuviï¿½ramos", "estuvimos", "somos", 
+			"estï¿½bamos", "tenï¿½ais", "hubieses", "estuvieran", "hubo", "un", "estuvieras", "estaremos", "quï¿½", "habï¿½ais", "tuya", 
+			"hubiï¿½semos", "fuerais", "hubieseis", "nos", "los", "estï¿½is", "serï¿½ais", "tuvierais", "tuyo", "estuviï¿½semos", 
+			"quienes", "habï¿½a", "ante", "no", "hubieron", "sido", "nuestras", "estado", "tenida", "tenido", "nada", "estuviera", 
+			"esa", "serï¿½a", "la", "fue", "ese", "le", "serï¿½an", "tened", "habida", "estuvieses", "estuvieseis", "tenï¿½amos", 
+			"eso", "con", "lo", "vosotras", "tuviera", "fui", "tuviste", "estarï¿½", "estarï¿½a", "erais", "porque", "hubiste", "estarï¿½",
+			"estuviese", "estamos", "ellas", "me", "eran", "de", "mi", "soy", "las", "este", "cual", "estarï¿½amos", "tenga", "esto",
+			"hubieran", "hayamos", "estï¿½n", "mï¿½as", "estï¿½s", "ni", "tendrï¿½amos", "tendrï¿½a", "haya", "tengo", "estabais", "fuï¿½semos",
+			"habrï¿½ais", "estados", "tenidas", "muy", "ï¿½ramos", "seas", "eres", "algunos", "tuvisteis", "tanto", "habrï¿½a", "ellos", 
+			"para", "suya", "os", "fuï¿½ramos", "tendrï¿½is", "hubierais", "hubiesen", "estoy", "tenï¿½a", "habiendo", "estarï¿½ais",
 			"tengamos", "tuyos", "suyo", "estando", "sean","interesa","encontrar");
 	
 
@@ -135,7 +135,7 @@ public class SearchFiles {
    * fichero.
    * @param searcher indice sobre el que se buscan los documentos
    * @param idConsulta identificador de la consulta
-   * @param consulta query con la que se realiza la búsqueda
+   * @param consulta query con la que se realiza la bï¿½squeda
    * @param pw objeto Printwritter sobre el que se escriben los fichero obtenidos.
    */
   public static void hacerConsultas (IndexSearcher searcher, String idConsulta, Query consulta, PrintWriter pw) throws IOException{
@@ -154,7 +154,7 @@ public class SearchFiles {
   
   /**
    * Extrae las 5 consultas que se encuentran en el fichero XML proporcionado
-   * como parámetro.
+   * como parï¿½metro.
    * @param docDir fichero XML del que extraer las consultas
    * @return array de cadena de caracteres con las consultas extraidas.
    */

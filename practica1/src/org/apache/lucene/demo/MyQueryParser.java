@@ -20,19 +20,24 @@ import org.apache.lucene.index.Term;
 public class MyQueryParser{
 	
 	private int trabajoPos=-1;
-	private int pos=0;
 	private Analyzer analyzer;
-	private static List<String> worthless=Arrays.asList("text","informacion");
+	private static List<String> worthless=Arrays.asList("text","informacion","trabaj","preferentement","entr","interesad"
+								,"preferiri","gustari","conocer","academic","tesis","doctoral","relacionad",
+								"publicad","partir","año","incluid","participad","algun","miembr","famili",
+								"usuari","necesit","obtener","implementarl","ofrecer","proyect","ultim","años");
+	private List<String> specific;
 	public MyQueryParser(Analyzer a){
 		analyzer=a;
 	}
 	
 	public Query parse(String necesidad) throws ParseException{
 		BooleanQuery base=new BooleanQuery();
+		specific=new ArrayList<String>();
 		try {
 			TokenStream ts=analyzer.tokenStream(null, new StringReader(necesidad));
 			ts.reset();
 			List<String> l = new ArrayList<String>();
+			//System.out.println("----------------------------------------");
 			while(ts.incrementToken()){
 				l.add(ts.getAttribute(CharTermAttribute.class).toString());
 				//System.out.println(ts.getAttribute(CharTermAttribute.class));
@@ -45,10 +50,14 @@ public class MyQueryParser{
 			
 			Query q = getQuery(l,"title");
 			q.setBoost(2f);
+			base.add(q,BooleanClause.Occur.MUST);
+			
+			q = getQuery(l,"creator");
+			q.setBoost(3f);
 			base.add(q,BooleanClause.Occur.SHOULD);
 			
 			
-			base.add(getQuery(l,"description"),BooleanClause.Occur.SHOULD);
+			base.add(getQuery(l,"description"),BooleanClause.Occur.MUST);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,30 +67,87 @@ public class MyQueryParser{
 		
 	}
 	public void checkIdentifier(List<String> stems,BooleanQuery base){
+		int pos=0;
+		boolean tesis=false;
+		boolean tfg=false;
+		boolean tfm=false;
+		boolean pfc=false;
+		boolean trabajos=false;
+		int type=0;
+		int n=0;
 		for (String stem: stems){
 			pos++;
 			if(stem.equals("tesis")){
-				base.add(new TermQuery(new Term("identifier","TESIS")),BooleanClause.Occur.MUST);
+				tesis=true;
+				//base.add(new TermQuery(new Term("identifier","TESIS")),BooleanClause.Occur.MUST);
 				trabajoPos=pos;
+				n++;
 			}else if(stem.contains("tfg")){
-				base.add(new TermQuery(new Term("identifier","TFG")),BooleanClause.Occur.MUST);
+				tfg=true;
+				//base.add(new TermQuery(new Term("identifier","TFG")),BooleanClause.Occur.MUST);
 				trabajoPos=pos;
+				n++;
 			}else if(stem.contains("tfm")){
-				base.add(new TermQuery(new Term("identifier","TFM")),BooleanClause.Occur.MUST);
+				tfm=true;
+				//base.add(new TermQuery(new Term("identifier","TFM")),BooleanClause.Occur.MUST);
 				trabajoPos=pos;
+				n++;
 			}else if(stem.contains("pfc")){
-				base.add(new TermQuery(new Term("identifier","PFC")),BooleanClause.Occur.MUST);
+				pfc=true;
+				//base.add(new TermQuery(new Term("identifier","PFC")),BooleanClause.Occur.MUST);
 				trabajoPos=pos;
+				n++;
+			}else if(stem.equals("master")){
+				tfm=true;
+				trabajoPos=pos;
+				n++;
+			}else if(stem.equals("carrer")){
+				pfc=true;
+				trabajoPos=pos;
+				n++;
+			}else if(stem.equals("grad")){
+				tfg=true;
+				trabajoPos=pos;
+				n++;
 			}else if(stem.equals("trabaj")){
+				
+				trabajos=true;
 				trabajoPos=pos;
 			}else if(stem.equals("publicad")){
 				trabajoPos=pos;
 			}else if(stem.equals("proyect")){
+				trabajos=true;
 				trabajoPos=pos;
 			}else if(stem.equals("text")){
 				trabajoPos=pos;
 			}else if(stem.equals("informacion")){
 				trabajoPos=pos;
+			}
+		}
+		if(n>1){
+			if(tesis){
+				base.add(new TermQuery(new Term("identifier","TESIS")),BooleanClause.Occur.SHOULD);
+			}
+			if(tfg){
+				base.add(new TermQuery(new Term("identifier","TFG")),BooleanClause.Occur.SHOULD);
+			}
+			if(tfm){
+				base.add(new TermQuery(new Term("identifier","TFM")),BooleanClause.Occur.SHOULD);
+			}
+			if(pfc){
+				base.add(new TermQuery(new Term("identifier","PFC")),BooleanClause.Occur.SHOULD);
+			}
+		}else{
+			if(tesis){
+				if(!trabajos){
+					base.add(new TermQuery(new Term("identifier","TESIS")),BooleanClause.Occur.MUST);
+				}
+			}else if(tfg){
+				base.add(new TermQuery(new Term("identifier","TFG")),BooleanClause.Occur.MUST);
+			}else if(tfm){
+				base.add(new TermQuery(new Term("identifier","TFM")),BooleanClause.Occur.MUST);
+			}else if(pfc){
+				base.add(new TermQuery(new Term("identifier","PFC")),BooleanClause.Occur.MUST);
 			}
 		}
 	}
@@ -134,10 +200,15 @@ public class MyQueryParser{
 							anio1=stem;
 						}
 					}
+					
+					if(mode == 1 | mode == 2 | mode==3 | mode==6){
+						specific.add(stem);
+					}
 				}else if((stem.compareTo("0")>0 && stem.compareTo("9")<=0  && stem.length()==1) 
 						| (stem.compareTo("10")>=0 && stem.compareTo("90")<0 && stem.length()==2)){
 					if(mode == 4){
 						anio1=stem;
+						specific.add(stem);
 					}
 				}
 			}
@@ -178,8 +249,12 @@ public class MyQueryParser{
 	}
 	public Query getQuery(List<String> stems, String field){
 		BooleanQuery bq=new BooleanQuery();
+		List<String> viewed= new ArrayList<String>();
 		for (String stem: stems){
-			if(!worthless.contains(stem)){
+			if(!worthless.contains(stem) && !specific.contains(stem) && !viewed.contains(stem)){
+				//if(field.equals("description"))
+					//System.out.println(stem);
+				viewed.add(stem);
 				bq.add(new TermQuery(new Term(field,stem)),BooleanClause.Occur.SHOULD);
 			}
 		}
