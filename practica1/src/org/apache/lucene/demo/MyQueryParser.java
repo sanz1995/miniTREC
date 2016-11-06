@@ -29,7 +29,12 @@ public class MyQueryParser{
 	public MyQueryParser(Analyzer a){
 		analyzer=a;
 	}
-	
+	/**
+	 * procesa una necesidad de información para formar una query
+	 * @param necesidad
+	 * @return BooleanQuery que contiene el resto de las querys utilizadas
+	 * @throws ParseException
+	 */
 	public Query parse(String necesidad) throws ParseException{
 		BooleanQuery base=new BooleanQuery();
 		specific=new ArrayList<String>();
@@ -66,6 +71,12 @@ public class MyQueryParser{
 		return base;
 		
 	}
+	/**
+	 * Si detecta que la necesidad de información hace referencia a un tipo particular de trabajo,
+	 * añade una Query a base.
+	 * @param stems
+	 * @param base
+	 */
 	public void checkIdentifier(List<String> stems,BooleanQuery base){
 		int pos=0;
 		boolean tesis=false;
@@ -151,6 +162,13 @@ public class MyQueryParser{
 			}
 		}
 	}
+	
+	/**
+	 * Si detecta que la publicación de la necesidad de información hace referencia a un 
+	 * periodo de tiempo, añade una Query a base. 
+	 * @param stems
+	 * @param base
+	 */
 	public void checkDate(List<String> stems,BooleanQuery base){
 		//0 nada encontrado, 1 previos, 2 posteriores, 3 entre, 4 ultimos, 5 aÃ±o, 6 desde
 		int mode =0;
@@ -247,6 +265,13 @@ public class MyQueryParser{
 		}
 		
 	}
+	/**
+	 * Forma una BooleanQuery compuesta por los terminos de la necesidad sobre un campo field,
+	 * siempre que estos, no aparezcan en las lista specific, worthless o viewed.
+	 * @param stems
+	 * @param field
+	 * @return
+	 */
 	public Query getQuery(List<String> stems, String field){
 		BooleanQuery bq=new BooleanQuery();
 		List<String> viewed= new ArrayList<String>();
