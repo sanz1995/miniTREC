@@ -1,0 +1,265 @@
+2016-11-26 12:48:02,495 INFO  crawl.Injector - Injector: starting at 2016-11-26 12:48:02
+2016-11-26 12:48:02,496 INFO  crawl.Injector - Injector: crawlDb: micrawl/crawldb
+2016-11-26 12:48:02,496 INFO  crawl.Injector - Injector: urlDir: urls
+2016-11-26 12:48:02,496 INFO  crawl.Injector - Injector: Converting injected urls to crawl db entries.
+2016-11-26 12:48:03,389 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 12:48:03,562 WARN  snappy.LoadSnappy - Snappy native library not loaded
+2016-11-26 12:48:05,026 INFO  regex.RegexURLNormalizer - can't find rules for scope 'inject', using default
+2016-11-26 12:48:05,088 INFO  crawl.Injector - Injector: Total number of urls rejected by filters: 0
+2016-11-26 12:48:05,088 INFO  crawl.Injector - Injector: Total number of urls after normalization: 1
+2016-11-26 12:48:05,088 INFO  crawl.Injector - Injector: Merging injected urls into crawl db.
+2016-11-26 12:48:05,294 INFO  crawl.Injector - Injector: overwrite: false
+2016-11-26 12:48:05,294 INFO  crawl.Injector - Injector: update: false
+2016-11-26 12:48:06,147 INFO  crawl.Injector - Injector: URLs merged: 1
+2016-11-26 12:48:06,181 INFO  crawl.Injector - Injector: Total new urls injected: 0
+2016-11-26 12:48:06,182 INFO  crawl.Injector - Injector: finished at 2016-11-26 12:48:06, elapsed: 00:00:03
+2016-11-26 12:48:21,344 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 12:48:21,345 INFO  crawl.Generator - Generator: starting at 2016-11-26 12:48:21
+2016-11-26 12:48:21,345 INFO  crawl.Generator - Generator: Selecting best-scoring urls due for fetch.
+2016-11-26 12:48:21,345 INFO  crawl.Generator - Generator: filtering: true
+2016-11-26 12:48:21,345 INFO  crawl.Generator - Generator: normalizing: true
+2016-11-26 12:48:21,348 INFO  crawl.Generator - Generator: jobtracker is 'local', generating exactly one partition.
+2016-11-26 12:48:21,805 INFO  crawl.FetchScheduleFactory - Using FetchSchedule impl: org.apache.nutch.crawl.DefaultFetchSchedule
+2016-11-26 12:48:21,805 INFO  crawl.AbstractFetchSchedule - defaultInterval=2592000
+2016-11-26 12:48:21,805 INFO  crawl.AbstractFetchSchedule - maxInterval=7776000
+2016-11-26 12:48:21,815 INFO  regex.RegexURLNormalizer - can't find rules for scope 'partition', using default
+2016-11-26 12:48:21,879 INFO  crawl.FetchScheduleFactory - Using FetchSchedule impl: org.apache.nutch.crawl.DefaultFetchSchedule
+2016-11-26 12:48:21,879 INFO  crawl.AbstractFetchSchedule - defaultInterval=2592000
+2016-11-26 12:48:21,879 INFO  crawl.AbstractFetchSchedule - maxInterval=7776000
+2016-11-26 12:48:21,883 INFO  regex.RegexURLNormalizer - can't find rules for scope 'generate_host_count', using default
+2016-11-26 12:48:22,559 INFO  crawl.Generator - Generator: Partitioning selected urls for politeness.
+2016-11-26 12:48:23,559 INFO  crawl.Generator - Generator: segment: micrawl/segments/20161126124823
+2016-11-26 12:48:23,665 INFO  regex.RegexURLNormalizer - can't find rules for scope 'partition', using default
+2016-11-26 12:48:24,637 INFO  crawl.Generator - Generator: finished at 2016-11-26 12:48:24, elapsed: 00:00:03
+2016-11-26 12:49:47,685 INFO  fetcher.Fetcher - Fetcher: starting at 2016-11-26 12:49:47
+2016-11-26 12:49:47,686 INFO  fetcher.Fetcher - Fetcher: segment: ls
+2016-11-26 12:49:47,830 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 12:49:47,861 ERROR security.UserGroupInformation - PriviledgedActionException as:jorge cause:org.apache.hadoop.mapred.InvalidInputException: Input path does not exist: file:/home/jorge/GIT/miniTREC/practica1/lib/apache-nutch-1.9/ls/crawl_generate
+2016-11-26 12:49:47,892 ERROR fetcher.Fetcher - Fetcher: org.apache.hadoop.mapred.InvalidInputException: Input path does not exist: file:/home/jorge/GIT/miniTREC/practica1/lib/apache-nutch-1.9/ls/crawl_generate
+	at org.apache.hadoop.mapred.FileInputFormat.listStatus(FileInputFormat.java:197)
+	at org.apache.hadoop.mapred.SequenceFileInputFormat.listStatus(SequenceFileInputFormat.java:40)
+	at org.apache.nutch.fetcher.Fetcher$InputFormat.getSplits(Fetcher.java:106)
+	at org.apache.hadoop.mapred.JobClient.writeOldSplits(JobClient.java:1081)
+	at org.apache.hadoop.mapred.JobClient.writeSplits(JobClient.java:1073)
+	at org.apache.hadoop.mapred.JobClient.access$700(JobClient.java:179)
+	at org.apache.hadoop.mapred.JobClient$2.run(JobClient.java:983)
+	at org.apache.hadoop.mapred.JobClient$2.run(JobClient.java:936)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1190)
+	at org.apache.hadoop.mapred.JobClient.submitJobInternal(JobClient.java:936)
+	at org.apache.hadoop.mapred.JobClient.submitJob(JobClient.java:910)
+	at org.apache.hadoop.mapred.JobClient.runJob(JobClient.java:1353)
+	at org.apache.nutch.fetcher.Fetcher.fetch(Fetcher.java:1432)
+	at org.apache.nutch.fetcher.Fetcher.run(Fetcher.java:1468)
+	at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:65)
+	at org.apache.nutch.fetcher.Fetcher.main(Fetcher.java:1441)
+
+2016-11-26 12:55:03,446 INFO  fetcher.Fetcher - Fetcher: starting at 2016-11-26 12:55:03
+2016-11-26 12:55:03,447 INFO  fetcher.Fetcher - Fetcher: segment: micrawl/segments/20161126124823
+2016-11-26 12:55:03,598 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 12:55:03,884 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:03,884 INFO  fetcher.Fetcher - Fetcher: threads: 10
+2016-11-26 12:55:03,884 INFO  fetcher.Fetcher - Fetcher: time-out divisor: 2
+2016-11-26 12:55:03,896 INFO  fetcher.Fetcher - QueueFeeder finished: total 41 records + hit by time limit :0
+2016-11-26 12:55:04,026 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:04,026 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:04,026 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/categoria_1\categoria_1.html (queue crawl delay=100ms)
+2016-11-26 12:55:04,027 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:04,027 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:04,027 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:04,028 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:04,028 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:04,028 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:04,028 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:04,029 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-26 12:55:04,030 INFO  fetcher.Fetcher - Fetcher: throughput threshold: -1
+2016-11-26 12:55:04,030 INFO  fetcher.Fetcher - Fetcher: throughput threshold retries: 5
+2016-11-26 12:55:04,071 INFO  http.Http - http.proxy.host = null
+2016-11-26 12:55:04,071 INFO  http.Http - http.proxy.port = 8080
+2016-11-26 12:55:04,071 INFO  http.Http - http.timeout = 10000
+2016-11-26 12:55:04,071 INFO  http.Http - http.content.limit = -1
+2016-11-26 12:55:04,071 INFO  http.Http - http.agent = My Nutch G4/Nutch-1.9
+2016-11-26 12:55:04,071 INFO  http.Http - http.accept.language = en-us,en-gb,en;q=0.7,*;q=0.3
+2016-11-26 12:55:04,071 INFO  http.Http - http.accept = text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+2016-11-26 12:55:05,018 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/categoria_3\categoria_3.html (queue crawl delay=100ms)
+2016-11-26 12:55:05,059 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=9, fetchQueues.totalSize=39, fetchQueues.getQueueCount=1
+2016-11-26 12:55:05,527 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56631.xml (queue crawl delay=100ms)
+2016-11-26 12:55:06,028 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56719.xml (queue crawl delay=100ms)
+2016-11-26 12:55:06,059 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=9, fetchQueues.totalSize=37, fetchQueues.getQueueCount=1
+2016-11-26 12:55:06,528 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56718.xml (queue crawl delay=100ms)
+2016-11-26 12:55:07,029 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56674.xml (queue crawl delay=100ms)
+2016-11-26 12:55:07,060 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=9, fetchQueues.totalSize=35, fetchQueues.getQueueCount=1
+2016-11-26 12:55:07,529 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56717.xml (queue crawl delay=100ms)
+2016-11-26 12:55:08,030 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56716.xml (queue crawl delay=100ms)
+2016-11-26 12:55:08,061 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=9, fetchQueues.totalSize=33, fetchQueues.getQueueCount=1
+2016-11-26 12:55:08,530 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56645.xml (queue crawl delay=100ms)
+2016-11-26 12:55:09,031 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56715.xml (queue crawl delay=100ms)
+2016-11-26 12:55:09,061 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=9, fetchQueues.totalSize=31, fetchQueues.getQueueCount=1
+2016-11-26 12:55:09,531 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56644.xml (queue crawl delay=100ms)
+2016-11-26 12:55:10,062 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=30, fetchQueues.getQueueCount=1
+2016-11-26 12:55:10,100 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56714.xml (queue crawl delay=100ms)
+2016-11-26 12:55:10,619 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/categoria_2\categoria_2.html (queue crawl delay=100ms)
+2016-11-26 12:55:11,062 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=28, fetchQueues.getQueueCount=1
+2016-11-26 12:55:11,120 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56643.xml (queue crawl delay=100ms)
+2016-11-26 12:55:11,624 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/categoria_4\categoria_4.html (queue crawl delay=100ms)
+2016-11-26 12:55:12,063 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=26, fetchQueues.getQueueCount=1
+2016-11-26 12:55:12,124 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56713.xml (queue crawl delay=100ms)
+2016-11-26 12:55:12,636 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56639.xml (queue crawl delay=100ms)
+2016-11-26 12:55:13,063 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=24, fetchQueues.getQueueCount=1
+2016-11-26 12:55:13,156 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56693.xml (queue crawl delay=100ms)
+2016-11-26 12:55:13,662 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56642.xml (queue crawl delay=100ms)
+2016-11-26 12:55:13,855 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56709.xml (queue crawl delay=100ms)
+2016-11-26 12:55:14,064 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=21, fetchQueues.getQueueCount=1
+2016-11-26 12:55:14,173 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56712.xml (queue crawl delay=100ms)
+2016-11-26 12:55:14,469 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56638.xml (queue crawl delay=100ms)
+2016-11-26 12:55:14,694 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56692.xml (queue crawl delay=100ms)
+2016-11-26 12:55:15,064 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56641.xml (queue crawl delay=100ms)
+2016-11-26 12:55:15,065 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=9, fetchQueues.totalSize=17, fetchQueues.getQueueCount=1
+2016-11-26 12:55:15,275 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56708.xml (queue crawl delay=100ms)
+2016-11-26 12:55:15,656 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56711.xml (queue crawl delay=100ms)
+2016-11-26 12:55:16,065 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=15, fetchQueues.getQueueCount=1
+2016-11-26 12:55:16,195 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56637.xml (queue crawl delay=100ms)
+2016-11-26 12:55:16,704 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56640.xml (queue crawl delay=100ms)
+2016-11-26 12:55:17,065 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=13, fetchQueues.getQueueCount=1
+2016-11-26 12:55:17,209 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56707.xml (queue crawl delay=100ms)
+2016-11-26 12:55:17,734 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56710.xml (queue crawl delay=100ms)
+2016-11-26 12:55:18,066 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=11, fetchQueues.getQueueCount=1
+2016-11-26 12:55:18,242 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56636.xml (queue crawl delay=100ms)
+2016-11-26 12:55:18,750 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56706.xml (queue crawl delay=100ms)
+2016-11-26 12:55:19,066 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=9, fetchQueues.getQueueCount=1
+2016-11-26 12:55:19,283 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56635.xml (queue crawl delay=100ms)
+2016-11-26 12:55:19,789 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56705.xml (queue crawl delay=100ms)
+2016-11-26 12:55:20,067 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=7, fetchQueues.getQueueCount=1
+2016-11-26 12:55:20,295 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56685.xml (queue crawl delay=100ms)
+2016-11-26 12:55:20,799 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56634.xml (queue crawl delay=100ms)
+2016-11-26 12:55:21,068 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=5, fetchQueues.getQueueCount=1
+2016-11-26 12:55:21,300 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56704.xml (queue crawl delay=100ms)
+2016-11-26 12:55:21,836 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56684.xml (queue crawl delay=100ms)
+2016-11-26 12:55:22,069 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=3, fetchQueues.getQueueCount=1
+2016-11-26 12:55:22,069 INFO  fetcher.Fetcher - * queue: http://hendrix-http.cps.unizar.es
+2016-11-26 12:55:22,069 INFO  fetcher.Fetcher -   maxThreads    = 1
+2016-11-26 12:55:22,069 INFO  fetcher.Fetcher -   inProgress    = 0
+2016-11-26 12:55:22,069 INFO  fetcher.Fetcher -   crawlDelay    = 100
+2016-11-26 12:55:22,069 INFO  fetcher.Fetcher -   minCrawlDelay = 0
+2016-11-26 12:55:22,069 INFO  fetcher.Fetcher -   nextFetchTime = 1480161322023
+2016-11-26 12:55:22,070 INFO  fetcher.Fetcher -   now           = 1480161322070
+2016-11-26 12:55:22,070 INFO  fetcher.Fetcher -   0. http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56633.xml
+2016-11-26 12:55:22,070 INFO  fetcher.Fetcher -   1. http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56683.xml
+2016-11-26 12:55:22,070 INFO  fetcher.Fetcher -   2. http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56632.xml
+2016-11-26 12:55:22,364 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56633.xml (queue crawl delay=100ms)
+2016-11-26 12:55:22,870 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56683.xml (queue crawl delay=100ms)
+2016-11-26 12:55:23,070 INFO  fetcher.Fetcher - -activeThreads=10, spinWaiting=10, fetchQueues.totalSize=1, fetchQueues.getQueueCount=1
+2016-11-26 12:55:23,071 INFO  fetcher.Fetcher - * queue: http://hendrix-http.cps.unizar.es
+2016-11-26 12:55:23,071 INFO  fetcher.Fetcher -   maxThreads    = 1
+2016-11-26 12:55:23,071 INFO  fetcher.Fetcher -   inProgress    = 0
+2016-11-26 12:55:23,071 INFO  fetcher.Fetcher -   crawlDelay    = 100
+2016-11-26 12:55:23,071 INFO  fetcher.Fetcher -   minCrawlDelay = 0
+2016-11-26 12:55:23,071 INFO  fetcher.Fetcher -   nextFetchTime = 1480161323098
+2016-11-26 12:55:23,071 INFO  fetcher.Fetcher -   now           = 1480161323071
+2016-11-26 12:55:23,071 INFO  fetcher.Fetcher -   0. http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56632.xml
+2016-11-26 12:55:23,374 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56632.xml (queue crawl delay=100ms)
+2016-11-26 12:55:23,375 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-26 12:55:23,375 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=9
+2016-11-26 12:55:23,387 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-26 12:55:23,388 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=8
+2016-11-26 12:55:23,395 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-26 12:55:23,395 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=7
+2016-11-26 12:55:23,422 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-26 12:55:23,422 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=6
+2016-11-26 12:55:23,425 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-26 12:55:23,425 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=5
+2016-11-26 12:55:23,426 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-26 12:55:23,426 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=4
+2016-11-26 12:55:23,447 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-26 12:55:23,447 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=3
+2016-11-26 12:55:23,450 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-26 12:55:23,450 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=2
+2016-11-26 12:55:23,462 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-26 12:55:23,462 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=1
+2016-11-26 12:55:23,498 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-26 12:55:23,498 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=0
+2016-11-26 12:55:24,072 INFO  fetcher.Fetcher - -activeThreads=0, spinWaiting=0, fetchQueues.totalSize=0, fetchQueues.getQueueCount=0
+2016-11-26 12:55:24,072 INFO  fetcher.Fetcher - -activeThreads=0
+2016-11-26 12:55:24,761 INFO  fetcher.Fetcher - Fetcher: finished at 2016-11-26 12:55:24, elapsed: 00:00:21
+2016-11-26 12:56:06,514 INFO  parse.ParseSegment - ParseSegment: starting at 2016-11-26 12:56:06
+2016-11-26 12:56:06,515 INFO  parse.ParseSegment - ParseSegment: segment: micrawl/segments/20161126124823
+2016-11-26 12:56:06,659 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 12:56:07,059 INFO  parse.ParserFactory - The parsing plugins: [org.apache.nutch.parse.tika.TikaParser] are enabled via the plugin.includes system property, and all claim to support the content type application/xml, but they are not mapped to it  in the parse-plugins.xml file
+2016-11-26 12:56:08,131 INFO  crawl.SignatureFactory - Using Signature impl: org.apache.nutch.crawl.MD5Signature
+2016-11-26 12:56:08,132 INFO  parse.ParseSegment - Parsed (2ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56631.xml
+2016-11-26 12:56:08,143 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56632.xml
+2016-11-26 12:56:08,152 INFO  parse.ParseSegment - Parsed (1ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56633.xml
+2016-11-26 12:56:08,159 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56634.xml
+2016-11-26 12:56:08,167 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56635.xml
+2016-11-26 12:56:08,173 INFO  parse.ParseSegment - Parsed (1ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56636.xml
+2016-11-26 12:56:08,178 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56637.xml
+2016-11-26 12:56:08,183 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56638.xml
+2016-11-26 12:56:08,189 INFO  parse.ParseSegment - Parsed (1ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56639.xml
+2016-11-26 12:56:08,193 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56640.xml
+2016-11-26 12:56:08,198 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56641.xml
+2016-11-26 12:56:08,209 INFO  parse.ParseSegment - Parsed (5ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56642.xml
+2016-11-26 12:56:08,257 INFO  parse.ParseSegment - Parsed (1ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56643.xml
+2016-11-26 12:56:08,264 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56644.xml
+2016-11-26 12:56:08,271 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56645.xml
+2016-11-26 12:56:08,279 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56674.xml
+2016-11-26 12:56:08,290 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56683.xml
+2016-11-26 12:56:08,299 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56684.xml
+2016-11-26 12:56:08,312 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56685.xml
+2016-11-26 12:56:08,353 INFO  parse.ParseSegment - Parsed (1ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56692.xml
+2016-11-26 12:56:08,359 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56693.xml
+2016-11-26 12:56:08,373 INFO  parse.ParseSegment - Parsed (1ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56704.xml
+2016-11-26 12:56:08,377 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56705.xml
+2016-11-26 12:56:08,401 INFO  parse.ParseSegment - Parsed (1ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56706.xml
+2016-11-26 12:56:08,409 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56707.xml
+2016-11-26 12:56:08,418 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56708.xml
+2016-11-26 12:56:08,424 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56709.xml
+2016-11-26 12:56:08,430 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56710.xml
+2016-11-26 12:56:08,435 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56711.xml
+2016-11-26 12:56:08,440 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56712.xml
+2016-11-26 12:56:08,446 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56713.xml
+2016-11-26 12:56:08,456 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56714.xml
+2016-11-26 12:56:08,461 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56715.xml
+2016-11-26 12:56:08,469 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56716.xml
+2016-11-26 12:56:08,477 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56717.xml
+2016-11-26 12:56:08,484 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56718.xml
+2016-11-26 12:56:08,489 INFO  parse.ParseSegment - Parsed (0ms):http://hendrix-http.cps.unizar.es/recinfo/oai_zaguan.unizar.es_56719.xml
+2016-11-26 12:56:08,557 INFO  regex.RegexURLNormalizer - can't find rules for scope 'outlink', using default
+2016-11-26 12:56:08,818 INFO  parse.ParseSegment - ParseSegment: finished at 2016-11-26 12:56:08, elapsed: 00:00:02
+2016-11-26 12:56:26,809 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 12:56:26,823 INFO  crawl.CrawlDb - CrawlDb update: starting at 2016-11-26 12:56:26
+2016-11-26 12:56:26,823 INFO  crawl.CrawlDb - CrawlDb update: db: micrawl/crawldb
+2016-11-26 12:56:26,823 INFO  crawl.CrawlDb - CrawlDb update: segments: [micrawl/segments/20161126124823]
+2016-11-26 12:56:26,823 INFO  crawl.CrawlDb - CrawlDb update: additions allowed: true
+2016-11-26 12:56:26,823 INFO  crawl.CrawlDb - CrawlDb update: URL normalizing: false
+2016-11-26 12:56:26,823 INFO  crawl.CrawlDb - CrawlDb update: URL filtering: false
+2016-11-26 12:56:26,823 INFO  crawl.CrawlDb - CrawlDb update: 404 purging: false
+2016-11-26 12:56:26,824 INFO  crawl.CrawlDb - CrawlDb update: Merging segment data into db.
+2016-11-26 12:56:27,342 INFO  crawl.FetchScheduleFactory - Using FetchSchedule impl: org.apache.nutch.crawl.DefaultFetchSchedule
+2016-11-26 12:56:27,343 INFO  crawl.AbstractFetchSchedule - defaultInterval=2592000
+2016-11-26 12:56:27,343 INFO  crawl.AbstractFetchSchedule - maxInterval=7776000
+2016-11-26 12:56:28,020 INFO  crawl.CrawlDb - CrawlDb update: finished at 2016-11-26 12:56:28, elapsed: 00:00:01
+2016-11-26 12:57:11,380 INFO  segment.SegmentReader - SegmentReader: dump segment: micrawl/segments/20161126124823
+2016-11-26 12:57:11,416 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 12:57:11,419 WARN  mapred.JobClient - Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+2016-11-26 12:57:12,629 INFO  segment.SegmentReader - SegmentReader: done
+2016-11-26 13:18:19,169 INFO  segment.SegmentReader - SegmentReader: dump segment: micrawl/segments/20161126124823
+2016-11-26 13:18:19,202 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 13:18:19,206 WARN  mapred.JobClient - Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+2016-11-26 13:18:19,233 ERROR security.UserGroupInformation - PriviledgedActionException as:jorge cause:java.io.IOException: No input paths specified in job
+2016-11-26 13:19:24,380 INFO  segment.SegmentReader - SegmentReader: dump segment: micrawl/segments/20161126124823
+2016-11-26 13:19:24,423 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 13:19:24,427 WARN  mapred.JobClient - Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+2016-11-26 13:19:25,676 INFO  segment.SegmentReader - SegmentReader: done
+2016-11-26 13:19:29,132 INFO  segment.SegmentReader - SegmentReader: dump segment: micrawl/segments/20161126124823
+2016-11-26 13:19:29,167 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 13:19:29,171 WARN  mapred.JobClient - Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+2016-11-26 13:19:29,197 ERROR security.UserGroupInformation - PriviledgedActionException as:jorge cause:java.io.IOException: No input paths specified in job
+2016-11-26 13:21:02,689 INFO  segment.SegmentReader - SegmentReader: dump segment: micrawl/segments/20161126124823
+2016-11-26 13:21:02,730 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 13:21:02,732 WARN  mapred.JobClient - Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+2016-11-26 13:21:03,943 INFO  segment.SegmentReader - SegmentReader: done
+2016-11-26 13:22:34,110 INFO  segment.SegmentReader - SegmentReader: dump segment: micrawl/segments/20161126124823
+2016-11-26 13:22:34,146 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-26 13:22:34,150 WARN  mapred.JobClient - Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+2016-11-26 13:22:35,348 INFO  segment.SegmentReader - SegmentReader: done

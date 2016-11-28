@@ -1,0 +1,105 @@
+2016-11-22 15:23:32,051 INFO  crawl.Injector - Injector: starting at 2016-11-22 15:23:32
+2016-11-22 15:23:32,052 INFO  crawl.Injector - Injector: crawlDb: micrawl/crawldb
+2016-11-22 15:23:32,052 INFO  crawl.Injector - Injector: urlDir: urls
+2016-11-22 15:23:32,052 INFO  crawl.Injector - Injector: Converting injected urls to crawl db entries.
+2016-11-22 15:23:32,386 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-22 15:23:32,441 WARN  snappy.LoadSnappy - Snappy native library not loaded
+2016-11-22 15:23:32,902 INFO  regex.RegexURLNormalizer - can't find rules for scope 'inject', using default
+2016-11-22 15:23:32,964 INFO  crawl.Injector - Injector: overwrite: false
+2016-11-22 15:23:32,964 INFO  crawl.Injector - Injector: update: false
+2016-11-22 15:23:33,659 INFO  crawl.Injector - Injector: Total number of urls rejected by filters: 0
+2016-11-22 15:23:33,659 INFO  crawl.Injector - Injector: Total number of urls after normalization: 1
+2016-11-22 15:23:33,668 INFO  crawl.Injector - Injector: Total new urls injected: 1
+2016-11-22 15:23:33,668 INFO  crawl.Injector - Injector: finished at 2016-11-22 15:23:33, elapsed: 00:00:01
+2016-11-22 15:24:28,133 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-22 15:24:28,134 INFO  crawl.Generator - Generator: starting at 2016-11-22 15:24:28
+2016-11-22 15:24:28,134 INFO  crawl.Generator - Generator: Selecting best-scoring urls due for fetch.
+2016-11-22 15:24:28,135 INFO  crawl.Generator - Generator: filtering: true
+2016-11-22 15:24:28,135 INFO  crawl.Generator - Generator: normalizing: true
+2016-11-22 15:24:28,138 INFO  crawl.Generator - Generator: jobtracker is 'local', generating exactly one partition.
+2016-11-22 15:24:28,674 INFO  crawl.FetchScheduleFactory - Using FetchSchedule impl: org.apache.nutch.crawl.DefaultFetchSchedule
+2016-11-22 15:24:28,674 INFO  crawl.AbstractFetchSchedule - defaultInterval=2592000
+2016-11-22 15:24:28,674 INFO  crawl.AbstractFetchSchedule - maxInterval=7776000
+2016-11-22 15:24:28,683 INFO  regex.RegexURLNormalizer - can't find rules for scope 'partition', using default
+2016-11-22 15:24:28,710 INFO  crawl.FetchScheduleFactory - Using FetchSchedule impl: org.apache.nutch.crawl.DefaultFetchSchedule
+2016-11-22 15:24:28,710 INFO  crawl.AbstractFetchSchedule - defaultInterval=2592000
+2016-11-22 15:24:28,710 INFO  crawl.AbstractFetchSchedule - maxInterval=7776000
+2016-11-22 15:24:28,714 INFO  regex.RegexURLNormalizer - can't find rules for scope 'generate_host_count', using default
+2016-11-22 15:24:29,454 INFO  crawl.Generator - Generator: Partitioning selected urls for politeness.
+2016-11-22 15:24:30,455 INFO  crawl.Generator - Generator: segment: micrawl/segments/20161122152430
+2016-11-22 15:24:30,586 INFO  regex.RegexURLNormalizer - can't find rules for scope 'partition', using default
+2016-11-22 15:24:31,565 INFO  crawl.Generator - Generator: finished at 2016-11-22 15:24:31, elapsed: 00:00:03
+2016-11-22 15:26:58,908 INFO  fetcher.Fetcher - Fetcher: starting at 2016-11-22 15:26:58
+2016-11-22 15:26:58,909 INFO  fetcher.Fetcher - Fetcher: segment: micrawl/segments/20161122152430
+2016-11-22 15:26:59,111 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-22 15:26:59,495 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,495 INFO  fetcher.Fetcher - Fetcher: threads: 10
+2016-11-22 15:26:59,495 INFO  fetcher.Fetcher - Fetcher: time-out divisor: 2
+2016-11-22 15:26:59,500 INFO  fetcher.Fetcher - QueueFeeder finished: total 1 records + hit by time limit :0
+2016-11-22 15:26:59,643 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,643 INFO  fetcher.Fetcher - fetching http://hendrix-http.cps.unizar.es/recinfo/recordsdc.html (queue crawl delay=100ms)
+2016-11-22 15:26:59,643 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,644 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-22 15:26:59,644 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=1
+2016-11-22 15:26:59,644 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,644 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-22 15:26:59,644 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=1
+2016-11-22 15:26:59,644 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,645 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-22 15:26:59,645 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=1
+2016-11-22 15:26:59,645 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,645 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-22 15:26:59,645 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=1
+2016-11-22 15:26:59,645 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,646 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-22 15:26:59,646 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=1
+2016-11-22 15:26:59,646 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,646 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-22 15:26:59,646 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=1
+2016-11-22 15:26:59,646 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,646 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-22 15:26:59,647 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=1
+2016-11-22 15:26:59,647 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,647 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-22 15:26:59,647 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=1
+2016-11-22 15:26:59,647 INFO  fetcher.Fetcher - Using queue mode : byHost
+2016-11-22 15:26:59,647 INFO  fetcher.Fetcher - Fetcher: throughput threshold: -1
+2016-11-22 15:26:59,647 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-22 15:26:59,647 INFO  fetcher.Fetcher - Fetcher: throughput threshold retries: 5
+2016-11-22 15:26:59,648 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=1
+2016-11-22 15:26:59,652 INFO  http.Http - http.proxy.host = null
+2016-11-22 15:26:59,652 INFO  http.Http - http.proxy.port = 8080
+2016-11-22 15:26:59,652 INFO  http.Http - http.timeout = 10000
+2016-11-22 15:26:59,652 INFO  http.Http - http.content.limit = -1
+2016-11-22 15:26:59,652 INFO  http.Http - http.agent = My Nutch G4/Nutch-1.9
+2016-11-22 15:26:59,652 INFO  http.Http - http.accept.language = en-us,en-gb,en;q=0.7,*;q=0.3
+2016-11-22 15:26:59,652 INFO  http.Http - http.accept = text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+2016-11-22 15:27:00,095 INFO  fetcher.Fetcher - Thread FetcherThread has no more work available
+2016-11-22 15:27:00,095 INFO  fetcher.Fetcher - -finishing thread FetcherThread, activeThreads=0
+2016-11-22 15:27:00,680 INFO  fetcher.Fetcher - -activeThreads=0, spinWaiting=0, fetchQueues.totalSize=0, fetchQueues.getQueueCount=0
+2016-11-22 15:27:00,680 INFO  fetcher.Fetcher - -activeThreads=0
+2016-11-22 15:27:01,369 INFO  fetcher.Fetcher - Fetcher: finished at 2016-11-22 15:27:01, elapsed: 00:00:02
+2016-11-22 15:27:11,710 INFO  parse.ParseSegment - ParseSegment: starting at 2016-11-22 15:27:11
+2016-11-22 15:27:11,710 INFO  parse.ParseSegment - ParseSegment: segment: micrawl/segments/20161122152430
+2016-11-22 15:27:11,915 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-22 15:27:12,494 INFO  crawl.SignatureFactory - Using Signature impl: org.apache.nutch.crawl.MD5Signature
+2016-11-22 15:27:12,496 INFO  parse.ParseSegment - Parsed (4ms):http://hendrix-http.cps.unizar.es/recinfo/recordsdc.html
+2016-11-22 15:27:12,574 INFO  regex.RegexURLNormalizer - can't find rules for scope 'outlink', using default
+2016-11-22 15:27:13,163 INFO  parse.ParseSegment - ParseSegment: finished at 2016-11-22 15:27:13, elapsed: 00:00:01
+2016-11-22 15:28:09,892 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-22 15:28:09,904 INFO  crawl.CrawlDb - CrawlDb update: starting at 2016-11-22 15:28:09
+2016-11-22 15:28:09,904 INFO  crawl.CrawlDb - CrawlDb update: db: micrawl/crawldb
+2016-11-22 15:28:09,904 INFO  crawl.CrawlDb - CrawlDb update: segments: [micrawl/segments/20161122152430]
+2016-11-22 15:28:09,904 INFO  crawl.CrawlDb - CrawlDb update: additions allowed: true
+2016-11-22 15:28:09,904 INFO  crawl.CrawlDb - CrawlDb update: URL normalizing: false
+2016-11-22 15:28:09,904 INFO  crawl.CrawlDb - CrawlDb update: URL filtering: false
+2016-11-22 15:28:09,904 INFO  crawl.CrawlDb - CrawlDb update: 404 purging: false
+2016-11-22 15:28:09,905 INFO  crawl.CrawlDb - CrawlDb update: Merging segment data into db.
+2016-11-22 15:28:10,511 INFO  crawl.FetchScheduleFactory - Using FetchSchedule impl: org.apache.nutch.crawl.DefaultFetchSchedule
+2016-11-22 15:28:10,511 INFO  crawl.AbstractFetchSchedule - defaultInterval=2592000
+2016-11-22 15:28:10,511 INFO  crawl.AbstractFetchSchedule - maxInterval=7776000
+2016-11-22 15:28:11,217 INFO  crawl.CrawlDb - CrawlDb update: finished at 2016-11-22 15:28:11, elapsed: 00:00:01
+2016-11-22 15:30:15,400 INFO  segment.SegmentReader - SegmentReader: dump segment: micrawl/segments/20161122152430
+2016-11-22 15:30:15,459 WARN  util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-11-22 15:30:15,462 WARN  mapred.JobClient - Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+2016-11-22 15:30:16,734 INFO  segment.SegmentReader - SegmentReader: done
