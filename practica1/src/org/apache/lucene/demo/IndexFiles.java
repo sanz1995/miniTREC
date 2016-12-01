@@ -35,14 +35,21 @@ import org.apache.lucene.util.Version;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringBufferInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /** Index all text files under a directory.
  * <p>
@@ -56,78 +63,106 @@ public class IndexFiles {
   /** Index all text files under a directory. */
   public static void main(String[] args) {
     String usage = "java org.apache.lucene.demo.IndexFiles"
-                 + " [-index INDEX_PATH] [-docs DOCS_PATH] [-update]\n\n"
+                 + " [-index INDEX_PATH] [-docs DOCS_PATH] [-update] [-dump DUMP_PATH]\n\n"
                  + "This indexes the documents in DOCS_PATH, creating a Lucene index"
                  + "in INDEX_PATH that can be searched with SearchFiles";
     String indexPath = "index";
     String docsPath = null;
+    String dumpPath = null;
     boolean create = true;
+    boolean segs = false;
     for(int i=0;i<args.length;i++) {
       if ("-index".equals(args[i])) {
-        indexPath = args[i+1];
-        i++;
+    	  indexPath = args[i+1];
+    	  i++;
       } else if ("-docs".equals(args[i])) {
-        docsPath = args[i+1];
-        i++;
+    	  docsPath = args[i+1];
+    	  i++;
       } else if ("-update".equals(args[i])) {
-        create = false;
+    	  create = false;
+      } else if ("-dump".equals(args[i])) {
+    	  segs = true;
+    	  dumpPath = args[i+1];
+    	  i++;
       }
     }
 
-    if (docsPath == null) {
+    if ((!segs && docsPath == null) || (segs && docsPath != null)) {
       System.err.println("Usage: " + usage);
       System.exit(1);
     }
+    if (!segs) {
+    	final File docDir = new File(docsPath);
+        if (!docDir.exists() || !docDir.canRead()) {
+          System.out.println("Document directory '" +docDir.getAbsolutePath()+ "' does not exist or is not readable, please check the path");
+          System.exit(1);
+        }
+        
+        Date start = new Date();
+        try {
+          System.out.println("Indexing to directory '" + indexPath + "'...");
 
-    final File docDir = new File(docsPath);
-    if (!docDir.exists() || !docDir.canRead()) {
-      System.out.println("Document directory '" +docDir.getAbsolutePath()+ "' does not exist or is not readable, please check the path");
-      System.exit(1);
-    }
-    
-    Date start = new Date();
-    try {
-      System.out.println("Indexing to directory '" + indexPath + "'...");
+          Directory dir = FSDirectory.open(new File(indexPath));
+          Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44);
+          IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_44, analyzer);
 
-      Directory dir = FSDirectory.open(new File(indexPath));
-      Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44);
-      IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_44, analyzer);
+          if (create) {
+            // Create a new index in the directory, removing any
+            // previously indexed documents:
+            iwc.setOpenMode(OpenMode.CREATE);
+          } else {
+            // Add new documents to an existing index:
+            iwc.setOpenMode(OpenMode.CREATE_OR_APPEND);
+          }
 
-      if (create) {
-        // Create a new index in the directory, removing any
-        // previously indexed documents:
-        iwc.setOpenMode(OpenMode.CREATE);
-      } else {
-        // Add new documents to an existing index:
-        iwc.setOpenMode(OpenMode.CREATE_OR_APPEND);
-      }
+          // Optional: for better indexing performance, if you
+          // are indexing many documents, increase the RAM
+          // buffer.  But if you do this, increase the max heap
+          // size to the JVM (eg add -Xmx512m or -Xmx1g):
+          //
+          // iwc.setRAMBufferSizeMB(256.0);
 
-      // Optional: for better indexing performance, if you
-      // are indexing many documents, increase the RAM
-      // buffer.  But if you do this, increase the max heap
-      // size to the JVM (eg add -Xmx512m or -Xmx1g):
-      //
-      // iwc.setRAMBufferSizeMB(256.0);
+          IndexWriter writer = new IndexWriter(dir, iwc);
+          indexDocs(writer, docDir);
 
-      IndexWriter writer = new IndexWriter(dir, iwc);
-      indexDocs(writer, docDir);
+          // NOTE: if you want to maximize search performance,
+          // you can optionally call forceMerge here.  This can be
+          // a terribly costly operation, so generally it's only
+          // worth it when your index is relatively static (ie
+          // you're done adding documents to it):
+          //
+          // writer.forceMerge(1);
 
-      // NOTE: if you want to maximize search performance,
-      // you can optionally call forceMerge here.  This can be
-      // a terribly costly operation, so generally it's only
-      // worth it when your index is relatively static (ie
-      // you're done adding documents to it):
-      //
-      // writer.forceMerge(1);
+          writer.close();
 
-      writer.close();
+          Date end = new Date();
+          System.out.println(end.getTime() - start.getTime() + " total milliseconds");
 
-      Date end = new Date();
-      System.out.println(end.getTime() - start.getTime() + " total milliseconds");
-
-    } catch (IOException e) {
-      System.out.println(" caught a " + e.getClass() +
-       "\n with message: " + e.getMessage());
+        } catch (IOException e) {
+          System.out.println(" caught a " + e.getClass() +
+           "\n with message: " + e.getMessage());
+        }
+    } else {
+    	try {
+    		final File dumpFile = new File(dumpPath);
+            if (!dumpFile.exists() || !dumpFile.canRead()) {
+              System.out.println("Document '" +dumpFile.getAbsolutePath()+ "' does not exist or is not readable, please check the path");
+              System.exit(1);
+            }
+            
+            Directory dir = FSDirectory.open(new File(indexPath));
+            Analyzer analyzer = new SpanishAnalyzer(Version.LUCENE_44);
+            IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_44, analyzer);
+            iwc.setOpenMode(OpenMode.CREATE);
+                
+            IndexWriter writer = new IndexWriter(dir, iwc);
+            indexDump(writer, dumpFile);
+            
+            writer.close();
+    	} catch (IOException e) {
+    		System.out.println(" caught a " + e.getClass() +
+    		   "\n with message: " + e.getMessage());
+    	}
     }
   }
 
@@ -235,6 +270,53 @@ public class IndexFiles {
         }
       }
     }
+  }
+  
+  public static void indexDump (IndexWriter writer, File dump) {
+	  try {
+		  String recorrido = "";
+		  String url = "";
+		  FileReader f = new FileReader(dump);
+		  BufferedReader b = new BufferedReader(f);
+		  DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();	
+          DocumentBuilder db = dbf.newDocumentBuilder();
+          
+		  while ((recorrido = b.readLine()) != null) {
+			  if (recorrido.startsWith("url: ")) {
+				  url = recorrido.substring(recorrido.lastIndexOf("/") + 1, recorrido.length());
+			  }
+			  if (recorrido.startsWith("<?xml")) {
+				  url = "recordsdc\\" + url;
+				  
+				  if (!recorrido.endsWith("</oai_dc:dc>")) {
+					  System.out.println("No añadido");
+				  } else {
+					  InputStream is = new ByteArrayInputStream(recorrido.getBytes(StandardCharsets.UTF_8));
+			          org.w3c.dom.Document pDoc = db.parse(is);
+			          pDoc.getDocumentElement().normalize();
+			          
+			          // make a new, empty document
+			          Document doc = new Document();
+			          //System.out.println(capturarTextoEtiqueta(pDoc, "dc:title"));
+			          doc.add(new StringField("path", url, Field.Store.YES));
+			          doc.add(new LongField("modified", dump.lastModified(), Field.Store.YES));
+			          doc.add(new TextField("title", capturarTextoEtiqueta(pDoc, "dc:title"), Field.Store.NO));
+			          doc.add(new StringField("identifier", capturarTextoEtiqueta(pDoc, "dc:identifier"), Field.Store.NO));
+			          doc.add(new TextField("description", capturarTextoEtiqueta(pDoc, "dc:description"), Field.Store.NO));
+			          doc.add(new TextField("creator", capturarTextoEtiqueta(pDoc, "dc:creator"), Field.Store.NO));
+			          doc.add(new IntField("date",Integer.parseInt(capturarTextoEtiqueta(pDoc, "dc:date")),Field.Store.NO));
+			          writer.addDocument(doc);
+			          
+			          System.out.println("Adding: " + url);
+			          is.close();
+				  }
+			}
+		  }
+		  b.close();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
   }
   
   /**
